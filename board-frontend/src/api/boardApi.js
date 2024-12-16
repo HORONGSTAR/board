@@ -37,3 +37,13 @@ export const logoutUser = async (credentials) => {
       throw error
    }
 }
+
+export const checkAuthStatus = async (credentials) => {
+   try {
+      const response = await boardApi.get('/auth/status', credentials)
+      return response
+   } catch (error) {
+      console.error(`/API Request 오류: ${error.message}`)
+      throw error
+   }
+}

@@ -8,6 +8,7 @@ require('dotenv').config()
 const { sequelize } = require('./models')
 const indexRouter = require('./routes')
 const authRouter = require('./routes/auth')
+const postRouter = require('./routes/post')
 const passport = require('passport')
 const passportConfig = require('./passport')
 
@@ -48,6 +49,7 @@ app.use(passport.session())
 
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
+app.use('/post', postRouter)
 
 app.use((req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 존재하지 않습니다.`)

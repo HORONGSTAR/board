@@ -1,10 +1,21 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { logoutUserThunk } from '../../features/authSlice'
 import { useDispatch } from 'react-redux'
+import { useCallback } from 'react'
 
 function Navbar({ isAuthenticated, user }) {
    const dispatch = useDispatch()
-   const handleLogout = () => {}
+   const navigator = useNavigate()
+   const handleLogout = useCallback(() => {
+      dispatch(logoutUserThunk())
+         .unwrap()
+         .then(() => {
+            navigator('/')
+         })
+         .catch((error) => {
+            alert(error)
+         })
+   }, [dispatch])
 
    return (
       <header>

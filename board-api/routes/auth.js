@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 const User = require('../models/user')
-const { isLoggendIn, isNotLoggendIn } = require('./middleware')
+const { isLoggedIn, isNotLoggendIn } = require('./middleware')
 
 router.post('/join', async (req, res, next) => {
    const { email, nick, password } = req.body
@@ -69,16 +69,16 @@ router.post('/login', isNotLoggendIn, async (req, res, next) => {
    })(req, res, next)
 })
 
-router.get('/logout', isLoggendIn, async (req, res, next) => {
+router.get('/logout', isLoggedIn, async (req, res, next) => {
    req.logOut((err) => {
       if (err) {
-         console.log(err)
          return res.status(500).json({
             success: false,
             message: '로그아웃 중 오류가 발생했습니다.',
             error: err,
          })
       }
+
       res.json({
          success: true,
          message: '로그아웃에 성공했습니다.',
@@ -86,6 +86,18 @@ router.get('/logout', isLoggendIn, async (req, res, next) => {
    })
 })
 
-router.get('/status', async (req, res, next) => {})
+router.get('/status', async (req, res, next) => {
+   if (req.isAuthenticated()) {
+      res.json({
+         isAuthenticated: true,
+         user: {
+            id: req.user.id,
+            nick: req.user.nick,
+         },
+      })
+   } else {
+      res.json({ isAuthenticated: false })
+   }
+})
 
 module.exports = router

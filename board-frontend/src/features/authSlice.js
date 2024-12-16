@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { registerUser, loginUser, logoutUser } from '../api/boardApi'
+import { registerUser, loginUser, logoutUser, checkAuthStatus } from '../api/boardApi'
 
 export const registerUserThunk = createAsyncThunk(
    'auth/registerUser',
@@ -35,6 +35,19 @@ export const logoutUserThunk = createAsyncThunk(
       }
    }
 )
+
+export const checkAuthStatusThunk = createAsyncThunk(
+   'auth/checkAuthStatus',
+   async (_, { rejectWithValue }) => {
+      try {
+         const response = await checkAuthStatus()
+         return response.data
+      } catch (error) {
+         return rejectWithValue(error.response?.data?.message || '상태 확인 실패')
+      }
+   }
+)
+
 const authSlice = createSlice({
    name: 'auth',
    initialState: {
@@ -83,6 +96,21 @@ const authSlice = createSlice({
          .addCase(logoutUserThunk.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
+         })
+         .addCase(checkAuthStatusThunk.pending, (state) => {
+            state.loading = true
+            state.error = null
+         })
+         .addCase(checkAuthStatusThunk.fulfilled, (state, action) => {
+            state.loading = false
+            state.user = action.payload.user || null
+            state.isAuthenticated = action.payload.isAuthenticated
+         })
+         .addCase(checkAuthStatusThunk.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+            state.user = null
+            state.isAuthenticated = false
          })
    },
 })
