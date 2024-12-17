@@ -2,19 +2,12 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUserThunk } from '../../features/authSlice'
-
-const Warning = ({ children, display }) => {
-   return (
-      <small style={{ display: display ? 'block' : 'none', padding: '4px', color: 'orangered' }}>
-         {children}
-      </small>
-   )
-}
+import { Warning } from '../../styles/StyledComponent'
 
 function Login() {
    const [email, setEmail] = useState('') // 이메일 상태
    const [password, setPassword] = useState('') // 비밀번호 상태
-   const [isEmpty, empty] = useState(false) // 이메일 상태
+   const [isEmpty, empty] = useState(false)
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
@@ -31,7 +24,7 @@ function Login() {
             .then(() => navigate('/'))
             .catch((err) => console.error('로그인 실패: ', err))
       },
-      [email, password, dispatch, navigate, isEmpty]
+      [email, password, dispatch, navigate]
    )
    const loginButtonContent = useMemo(() => (loading ? 'Loading...' : '로그인'), [loading])
 
@@ -54,7 +47,6 @@ function Login() {
                   name="email"
                   onChange={(e) => setEmail(e.target.value)}
                />
-               <Warning display={isEmpty}>이메일을 입력해주세요.</Warning>
             </div>
             <div>
                <label htmlFor="password">비밀번호 </label>
@@ -64,8 +56,9 @@ function Login() {
                   name="password"
                   onChange={(e) => setPassword(e.target.value)}
                />
-               <Warning display={isEmpty}>비밀번호를 입력해주세요.</Warning>
             </div>
+            <Warning display={isEmpty}>모든 입력창을 채워주세요.</Warning>
+
             <div>
                <button type="submit" disabled={loading}>
                   {loginButtonContent}

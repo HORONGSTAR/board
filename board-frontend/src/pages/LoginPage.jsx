@@ -1,12 +1,10 @@
-import React from 'react'
 import Login from '../components/auth/Login'
-import { Container } from '@mui/material'
 
 const LoginPage = () => {
    return (
-      <Container>
+      <div>
          <Login />
-      </Container>
+      </div>
    )
 }
 

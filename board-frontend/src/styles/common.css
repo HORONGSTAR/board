@@ -1,49 +1,23 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
-*,
-body {
-   margin: 0;
+* {
    padding: 0;
+   margin: 0;
    font-family: 'Pretendard', sans-serif;
-   text-decoration: none;
-   color: #222;
 }
 
 ul {
    list-style: none;
 }
 
-header {
-   width: 100%;
-   height: 50px;
-   background-color: #eee;
-   display: flex;
-   align-items: center;
+a {
+   text-decoration: none;
+   color: #000;
 }
 
 header > ul {
    display: flex;
 }
 header > ul > li {
-   padding: 5px 20px;
-}
-header > ul > li > a:hover {
-   color: darkorange;
-}
-
-form {
-   display: flex;
-   flex-direction: column;
-}
-
-form > div {
-   padding: 2px;
-   display: flex;
-   align-items: end;
-}
-form > div > label {
-   width: 100px;
-}
-form > div > input {
-   padding: 2px;
+   padding: 10px;
 }

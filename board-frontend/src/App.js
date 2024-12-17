@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
+import PostCreatePage from './pages/PostCreatePage'
 import './styles/common.css'
 import Navbar from './components/shared/Navber'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,9 +21,10 @@ function App() {
       <>
          <Navbar isAuthenticated={isAuthenticated} user={user} />
          <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home isAuthenticated={isAuthenticated} user={user} />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/posts/create" element={<PostCreatePage />} />
          </Routes>
       </>
    )

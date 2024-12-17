@@ -1,12 +1,10 @@
-import React from 'react'
 import Signup from '../components/auth/Signup'
-import { Container } from '@mui/material'
 
 function SignupPage() {
    return (
-      <Container>
+      <div>
          <Signup />
-      </Container>
+      </div>
    )
 }
 

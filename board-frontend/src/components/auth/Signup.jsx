@@ -2,9 +2,12 @@ import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUserThunk } from '../../features/authSlice'
 
+import { Warning } from '../../styles/StyledComponent'
+
 function Signup() {
    const [email, setEmail] = useState('')
    const [nick, setNick] = useState('')
+   const [isEmpty, empty] = useState(false)
    const [password, setPassword] = useState('')
    const [confirmPassword, setConfirmPassword] = useState('')
    const [isSignupComplete, setIsSignupComplete] = useState(false)
@@ -14,10 +17,9 @@ function Signup() {
 
    const handleSignup = useCallback(() => {
       if (!email.trim() || !nick.trim() || !password.trim() || !confirmPassword.trim()) {
-         alert('모든 필드를 입력해주세요!')
-         return
+         return empty(true)
       }
-      if (password != confirmPassword) {
+      if (password !== confirmPassword) {
          alert('패스워드가 일치하지 않습니다!')
          return
       }
@@ -48,45 +50,38 @@ function Signup() {
 
          {error && <p>{error}</p>}
 
-         <form action="post">
-            <div>
-               <label htmlFor="email">이메일 </label>
-               <input
-                  type="text"
-                  value={email}
-                  name="email"
-                  onChange={(e) => setEmail(e.target.value)}
-               />
-            </div>
-            <div>
-               <label htmlFor="nick">이름 </label>
-               <input
-                  type="text"
-                  value={nick}
-                  name="nick"
-                  onChange={(e) => setNick(e.target.value)}
-               />
-            </div>
-            <div>
-               <label htmlFor="password">비밀번호 </label>
-               <input
-                  type="password"
-                  value={password}
-                  name="password"
-                  onChange={(e) => setPassword(e.target.value)}
-               />
-            </div>
-            <div>
-               <label htmlFor="confirmPassword">비밀번호 확인 </label>
-               <input
-                  type="password"
-                  value={confirmPassword}
-                  name="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-               />
-            </div>
-         </form>
-
+         <div>
+            <label htmlFor="email">이메일 </label>
+            <input
+               type="text"
+               value={email}
+               name="email"
+               onChange={(e) => setEmail(e.target.value)}
+            />
+         </div>
+         <div>
+            <label htmlFor="nick">이름 </label>
+            <input type="text" value={nick} name="nick" onChange={(e) => setNick(e.target.value)} />
+         </div>
+         <div>
+            <label htmlFor="password">비밀번호 </label>
+            <input
+               type="password"
+               value={password}
+               name="password"
+               onChange={(e) => setPassword(e.target.value)}
+            />
+         </div>
+         <div>
+            <label htmlFor="confirmPassword">비밀번호 확인 </label>
+            <input
+               type="password"
+               value={confirmPassword}
+               name="confirmPassword"
+               onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+         </div>
+         <Warning display={isEmpty}>모든 입력창을 채워주세요.</Warning>
          <button onClick={handleSignup}>{loading ? 'Loading...' : '회원가입'}</button>
       </div>
    )

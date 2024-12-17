@@ -15,7 +15,7 @@ function Navbar({ isAuthenticated, user }) {
          .catch((error) => {
             alert(error)
          })
-   }, [dispatch])
+   }, [dispatch, navigator])
 
    return (
       <header>
