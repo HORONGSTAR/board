@@ -6,7 +6,7 @@ module.exports = class Hashtag extends Sequelize.Model {
          {
             title: {
                type: Sequelize.TEXT,
-               allowNull: false,
+               allowNull: true,
             },
          },
          {

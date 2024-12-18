@@ -19,8 +19,10 @@ const upload = multer({
          cb(null, 'uploads/')
       },
       filename(req, file, cb) {
-         const ext = path.extname(file.originalname)
-         cb(null, path.basename(file.originalname, ext) + Date.now() + ext)
+         const decodedFileName = decodeURIComponent(file.originalname)
+         const ext = path.extname(decodedFileName)
+         const basename = path.basename(decodedFileName, ext)
+         cb(null, basename + Date.now() + ext)
       },
    }),
    limits: { fileSize: 5 * 1024 * 1024 },
@@ -28,12 +30,10 @@ const upload = multer({
 
 router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
    try {
-      if (!req.file) {
-         return res.status(400).json({ success: false, message: '' })
-      }
       const post = await Post.create({
+         title: req.body.title,
          content: req.body.content,
-         img: `/${req.file.filename}`,
+         img: `/${req.file?.filename}`,
          alt: req.body.alt,
          UserId: req.user.id,
       })
@@ -52,6 +52,7 @@ router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
          success: true,
          post: {
             id: post.id,
+            title: post.title,
             content: post.content,
             img: post.img,
             alt: req.body.alt,
@@ -76,13 +77,16 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
             UserId: req.user.id,
          },
       })
+
       if (!post) {
          return res.status(404).json({
             success: false,
             message: '게시물을 찾을 수 없습니다.',
          })
       }
+
       await post.update({
+         title: req.body.title,
          content: req.body.content,
          img: req.file ? `/${req.file.filename}` : post.img,
          alt: req.body.alt,
@@ -126,6 +130,7 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
       })
    }
 })
+
 router.delete('/:id', async (req, res) => {
    try {
       const post = await Post.findOne({
