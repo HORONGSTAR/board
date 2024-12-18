@@ -1,10 +1,11 @@
 import Signup from '../components/auth/Signup'
+import { Box } from '../styles/StyledComponent'
 
 function SignupPage() {
    return (
-      <div>
+      <Box>
          <Signup />
-      </div>
+      </Box>
    )
 }
 

@@ -1,10 +1,11 @@
 import Login from '../components/auth/Login'
+import { Box } from '../styles/StyledComponent'
 
 const LoginPage = () => {
    return (
-      <div>
+      <Box col max="1000px">
          <Login />
-      </div>
+      </Box>
    )
 }
 

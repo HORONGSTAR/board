@@ -3,13 +3,13 @@ import { useCallback } from 'react'
 import { createPostThunk } from '../features/postSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Box } from '../styles/StyledComponent'
 
 function CreatePostPage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const handleSubmit = useCallback(
-      // postData: 사용자가 PostForm에서 작성한 정보
       (postData) => {
          dispatch(createPostThunk(postData))
             .unwrap()
@@ -24,9 +24,9 @@ function CreatePostPage() {
       [dispatch, navigate]
    )
    return (
-      <div>
+      <Box col max="1000px">
          <PostForm onSubmit={handleSubmit} />
-      </div>
+      </Box>
    )
 }
 

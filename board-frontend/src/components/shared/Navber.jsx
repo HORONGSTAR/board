@@ -21,7 +21,7 @@ function Navbar({ isAuthenticated, user }) {
       <header>
          <ul>
             <li>
-               <Link to="/">Croquis Study</Link>
+               <Link to="/">Free Board</Link>
             </li>
             {isAuthenticated ? (
                <>

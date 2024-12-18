@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUserThunk } from '../../features/authSlice'
-
-import { Warning } from '../../styles/StyledComponent'
+import { Warning, Box, Button, Input, Label } from '../../styles/StyledComponent'
 
 function Signup() {
    const [email, setEmail] = useState('')
@@ -45,45 +44,60 @@ function Signup() {
    }
 
    return (
-      <div>
+      <Box>
          <h4>회원가입</h4>
-
          {error && <p>{error}</p>}
-
-         <div>
-            <label htmlFor="email">이메일 </label>
-            <input
+         <Box>
+            <Label htmlFor="email" w="100px">
+               이메일
+            </Label>
+            <Input
                type="text"
                value={email}
                name="email"
                onChange={(e) => setEmail(e.target.value)}
+               w="300px"
             />
-         </div>
-         <div>
-            <label htmlFor="nick">이름 </label>
-            <input type="text" value={nick} name="nick" onChange={(e) => setNick(e.target.value)} />
-         </div>
-         <div>
-            <label htmlFor="password">비밀번호 </label>
-            <input
+         </Box>
+         <Box>
+            <Label htmlFor="nick" w="100px">
+               이름
+            </Label>
+            <Input
+               type="text"
+               value={nick}
+               name="nick"
+               onChange={(e) => setNick(e.target.value)}
+               w="300px"
+            />
+         </Box>
+         <Box>
+            <Label htmlFor="password" w="100px">
+               비밀번호
+            </Label>
+            <Input
                type="password"
                value={password}
                name="password"
                onChange={(e) => setPassword(e.target.value)}
+               w="300px"
             />
-         </div>
-         <div>
-            <label htmlFor="confirmPassword">비밀번호 확인 </label>
-            <input
+         </Box>
+         <Box>
+            <Label htmlFor="confirmPassword" w="100px">
+               비밀번호 확인
+            </Label>
+            <Input
                type="password"
                value={confirmPassword}
                name="confirmPassword"
                onChange={(e) => setConfirmPassword(e.target.value)}
+               w="300px"
             />
-         </div>
+         </Box>
          <Warning display={isEmpty}>모든 입력창을 채워주세요.</Warning>
-         <button onClick={handleSignup}>{loading ? 'Loading...' : '회원가입'}</button>
-      </div>
+         <Button onClick={handleSignup}>{loading ? 'Loading...' : '회원가입'}</Button>
+      </Box>
    )
 }
 

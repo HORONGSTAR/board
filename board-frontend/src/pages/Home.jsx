@@ -14,7 +14,7 @@ const Home = ({ isAuthenticated, user }) => {
    }, [dispatch, page])
 
    return (
-      <Box>
+      <Box col max="1000px">
          <h4>Home Feed</h4>
          {loading && <p>로딩 중...</p>}
          {error && <p>에러 발생: {error}</p>}

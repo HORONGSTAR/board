@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Button, UploadFild, Textarea, Input } from '../../styles/StyledComponent'
+import { Box, Button, FakeBtn, Textarea, Input, Label, Img } from '../../styles/StyledComponent'
 
 function PostForm({ onSubmit, initialValues = {} }) {
    const [imgUrl, setImgUrl] = useState('')
@@ -47,17 +47,18 @@ function PostForm({ onSubmit, initialValues = {} }) {
 
    return (
       <form onSubmit={handleSubmit}>
-         <div>
-            <label htmlFor="title">제목</label>
+         <Box>
+            <Label htmlFor="title">제목</Label>
             <Input
                type="text"
                name="title"
+               id="title"
                value={title}
                onChange={(e) => setTitle(e.target.value)}
             />
-         </div>
-         <div>
-            <label htmlFor="content">내용</label>
+         </Box>
+         <Box>
+            <Label htmlFor="content">내용</Label>
             <Textarea
                type="text"
                name="content"
@@ -65,9 +66,9 @@ function PostForm({ onSubmit, initialValues = {} }) {
                value={content}
                onChange={(e) => setContent(e.target.value)}
             />
-         </div>
-         <div>
-            <label htmlFor="hashtag">해시태그</label>
+         </Box>
+         <Box>
+            <Label htmlFor="hashtag">해시태그</Label>
             <Input
                type="text"
                name="hashtag"
@@ -75,27 +76,26 @@ function PostForm({ onSubmit, initialValues = {} }) {
                value={hashtags}
                onChange={(e) => setHashtags(e.target.value)}
             />
-         </div>
-         <div>
-            <label htmlFor="img">
-               <UploadFild>이미지 업로드</UploadFild>
-            </label>
+         </Box>
+         <Box>
+            <Label htmlFor="img" p="4px 0">
+               <FakeBtn>이미지 업로드</FakeBtn>
+            </Label>
             <input hidden type="file" name="img" id="img" onChange={handleImageChange} />
-         </div>
+         </Box>
 
          {imgUrl && (
-            <div>
-               <img width={300} src={imgUrl} alt="업로드 이미지 미리보기" />
-               <div>
-                  <label htmlFor="alt">대체 이미지 텍스트</label>
-                  <input
-                     type="text"
-                     name="alt"
-                     value={imgAlt}
-                     onChange={(e) => setImgAlt(e.target.value)}
-                  />
-               </div>
-            </div>
+            <>
+               <Img src={imgUrl} alt="업로드 이미지 미리보기" />
+
+               <Label htmlFor="alt">대체 이미지 텍스트</Label>
+               <Input
+                  type="text"
+                  name="alt"
+                  value={imgAlt}
+                  onChange={(e) => setImgAlt(e.target.value)}
+               />
+            </>
          )}
          <Button type="submit">등록</Button>
       </form>
