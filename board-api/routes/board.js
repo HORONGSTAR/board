@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { User, Post, Hashtag } = require('../models')
+const { User, Board, Hashtag } = require('../models')
 const { isLoggedIn } = require('./middleware')
 const fs = require('fs')
 const multer = require('multer')
@@ -30,10 +30,10 @@ const upload = multer({
 
 router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
    try {
-      const post = await Post.create({
+      const board = await Board.create({
          title: req.body.title,
          content: req.body.content,
-         img: `/${req.file?.filename}`,
+         img: req.file && `/${req.file.filename}`,
          alt: req.body.alt,
          UserId: req.user.id,
       })
@@ -46,17 +46,17 @@ router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
                })
             )
          )
-         await post.addHashtags(result.map((r) => r[0]))
+         await board.addHashtags(result.map((r) => r[0]))
       }
       res.json({
          success: true,
-         post: {
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            img: post.img,
-            alt: req.body.alt,
-            UserId: post.UserId,
+         board: {
+            id: board.id,
+            title: board.title,
+            content: board.content,
+            img: board.img,
+            alt: board.alt,
+            UserId: board.UserId,
          },
          message: '게시물이 성공적으로 등록되었습니다.',
       })
@@ -71,24 +71,24 @@ router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
 })
 router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
    try {
-      const post = await Post.findOne({
+      const board = await Board.findOne({
          where: {
             id: req.params.id,
             UserId: req.user.id,
          },
       })
 
-      if (!post) {
+      if (!board) {
          return res.status(404).json({
             success: false,
             message: '게시물을 찾을 수 없습니다.',
          })
       }
 
-      await post.update({
+      await board.update({
          title: req.body.title,
          content: req.body.content,
-         img: req.file ? `/${req.file.filename}` : post.img,
+         img: req.file ? `/${req.file.filename}` : board.img,
          alt: req.body.alt,
       })
       const hashtags = req.body.hashtags.match(/#[^\s#]*/g)
@@ -102,9 +102,9 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
             )
          )
 
-         await post.addHashtags(result.map((r) => r[0]))
+         await board.addHashtags(result.map((r) => r[0]))
       }
-      const updatedPost = await Post.findOne({
+      const updatedBoard = await Board.findOne({
          where: { id: req.params.id },
          include: [
             {
@@ -119,7 +119,7 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
       })
       res.json({
          success: true,
-         post: updatedPost,
+         board: updatedBoard,
          message: '게시글을 성공적으로 수정했습니다.',
       })
    } catch (err) {
@@ -133,19 +133,19 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
    try {
-      const post = await Post.findOne({
+      const board = await Board.findOne({
          where: {
             id: req.params.id,
             UserId: req.user.id,
          },
       })
-      if (!post) {
+      if (!board) {
          return res.status(404).json({
             success: false,
             message: '게시물을 찾을 수 없습니다.',
          })
       }
-      await post.destroy()
+      await board.destroy()
       res.json({
          success: true,
          message: '게시글이 성공적으로 삭제되었습니다.',
@@ -162,7 +162,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
    try {
-      const post = await Post.findOne({
+      const board = await Board.findOne({
          where: { id: req.params.id },
          include: [
             {
@@ -175,7 +175,7 @@ router.get('/:id', async (req, res) => {
             },
          ],
       })
-      if (!post) {
+      if (!board) {
          return res.status(404).json({
             success: false,
             message: '게시물을 찾을 수 없습니다.',
@@ -183,7 +183,7 @@ router.get('/:id', async (req, res) => {
       }
       res.json({
          success: true,
-         post,
+         board,
          message: '게시물을 성공적으로 불러왔습니다.',
       })
    } catch (error) {
@@ -201,9 +201,9 @@ router.get('/', async (req, res) => {
    const limit = parseInt(req.query.limit, 10) || 3
    const offset = (page - 1) * limit
    try {
-      const count = await Post.count()
+      const count = await Board.count()
 
-      const posts = await Post.findAll({
+      const boards = await Board.findAll({
          limit,
          offset,
          order: [['createdAt', 'DESC']],
@@ -222,9 +222,9 @@ router.get('/', async (req, res) => {
 
       res.json({
          success: true,
-         posts,
+         boards,
          pagination: {
-            totalPosts: count,
+            totalBoards: count,
             currentPage: page,
             totalPages: Math.ceil(count / limit),
             limit,

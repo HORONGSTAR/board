@@ -2,7 +2,10 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
-import PostCreatePage from './pages/PostCreatePage'
+import BoardCreatePage from './pages/BoardCreatePage'
+import BoardEditPage from './pages/BoardEditPage'
+import BoardDetailPage from './pages/BoardDetailPage'
+
 import './styles/common.css'
 import Navbar from './components/shared/Navber'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,7 +27,12 @@ function App() {
             <Route path="/" element={<Home isAuthenticated={isAuthenticated} user={user} />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/posts/create" element={<PostCreatePage />} />
+            <Route
+               path="/boards/:id"
+               element={<BoardDetailPage isAuthenticated={isAuthenticated} user={user} />}
+            />
+            <Route path="/boards/create" element={<BoardCreatePage />} />
+            <Route path="/boards/edit/:id" element={<BoardEditPage />} />
          </Routes>
       </>
    )

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { logoutUserThunk } from '../../features/authSlice'
 import { useDispatch } from 'react-redux'
 import { useCallback } from 'react'
+import { Line, Ul, Li, Span } from '../../styles/StyledComponent'
 
 function Navbar({ isAuthenticated, user }) {
    const dispatch = useDispatch()
@@ -19,30 +20,33 @@ function Navbar({ isAuthenticated, user }) {
 
    return (
       <header>
-         <ul>
-            <li>
+         <Ul max="1000px" p="20px 0 10px">
+            <Li>
                <Link to="/">Free Board</Link>
-            </li>
+            </Li>
             {isAuthenticated ? (
                <>
-                  <li>
-                     <Link to="/posts/create">글쓰기</Link>
-                  </li>
-                  <li>
+                  <Li>
+                     <Link to="/boards/create">글쓰기</Link>
+                  </Li>
+                  <Li>
                      <Link to="/my"> {user.nick}님</Link>
-                  </li>
-                  <li>
-                     <button onClick={handleLogout}>로그아웃</button>
-                  </li>
+                  </Li>
+                  <Li>
+                     <Span onClick={handleLogout} theme="point">
+                        로그아웃
+                     </Span>
+                  </Li>
                </>
             ) : (
-               <li>
+               <Li>
                   <Link to="/login">
-                     <button>로그인</button>
+                     <Span theme="point">로그인</Span>
                   </Link>
-               </li>
+               </Li>
             )}
-         </ul>
+            <Line />
+         </Ul>
       </header>
    )
 }

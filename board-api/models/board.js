@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-module.exports = class Post extends Sequelize.Model {
+module.exports = class Board extends Sequelize.Model {
    static init(sequelize) {
       return super.init(
          {
@@ -25,8 +25,8 @@ module.exports = class Post extends Sequelize.Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Post',
-            tableName: 'posts',
+            modelName: 'Board',
+            tableName: 'boards',
             paranoid: true,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
@@ -35,8 +35,8 @@ module.exports = class Post extends Sequelize.Model {
    }
 
    static associate(db) {
-      db.Post.belongsTo(db.User)
-      db.Post.hasMany(db.Comment)
-      db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' })
+      db.Board.belongsTo(db.User)
+      db.Board.hasMany(db.Comment)
+      db.Board.belongsToMany(db.Hashtag, { through: 'BoardHashtag' })
    }
 }

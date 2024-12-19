@@ -1,17 +1,17 @@
-import PostForm from '../components/post/PostForm'
+import BoardForm from '../components/board/BoardForm'
 import { useCallback } from 'react'
-import { createPostThunk } from '../features/postSlice'
+import { createBoardThunk } from '../features/boardSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Box } from '../styles/StyledComponent'
 
-function CreatePostPage() {
+function BoardCreatePage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const handleSubmit = useCallback(
-      (postData) => {
-         dispatch(createPostThunk(postData))
+      (boardData) => {
+         dispatch(createBoardThunk(boardData))
             .unwrap()
             .then(() => {
                navigate('/')
@@ -25,9 +25,9 @@ function CreatePostPage() {
    )
    return (
       <Box col max="1000px">
-         <PostForm onSubmit={handleSubmit} />
+         <BoardForm onSubmit={handleSubmit} />
       </Box>
    )
 }
 
-export default CreatePostPage
+export default BoardCreatePage

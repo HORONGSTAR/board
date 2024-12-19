@@ -53,7 +53,7 @@ function Login() {
             </Box>
             <Box>
                <Label htmlFor="password" w="100px">
-                  비밀번호{' '}
+                  비밀번호
                </Label>
                <Input
                   type="password"

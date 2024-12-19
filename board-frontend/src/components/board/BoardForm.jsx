@@ -1,13 +1,17 @@
 import React, { useState, useCallback } from 'react'
 import { Box, Button, FakeBtn, Textarea, Input, Label, Img } from '../../styles/StyledComponent'
 
-function PostForm({ onSubmit, initialValues = {} }) {
-   const [imgUrl, setImgUrl] = useState('')
+function BoardForm({ onSubmit, initialValues = {} }) {
+   const [imgUrl, setImgUrl] = useState(
+      initialValues.img ? process.env.REACT_APP_API_URL + initialValues.img : ''
+   )
    const [imgFile, setImgFile] = useState(null)
-   const [imgAlt, setImgAlt] = useState(null)
-   const [title, setTitle] = useState('')
-   const [content, setContent] = useState('')
-   const [hashtags, setHashtags] = useState('')
+   const [title, setTitle] = useState(initialValues.title || '')
+   const [imgAlt, setImgAlt] = useState(initialValues.alt || '')
+   const [content, setContent] = useState(initialValues.content || '')
+   const [hashtags, setHashtags] = useState(
+      initialValues.Hashtags ? initialValues.Hashtags.map((tag) => `#${tag.title}`).join(' ') : ''
+   )
 
    const handleImageChange = useCallback((e) => {
       const file = e.target.files && e.target.files[0]
@@ -24,25 +28,28 @@ function PostForm({ onSubmit, initialValues = {} }) {
    const handleSubmit = useCallback(
       (e) => {
          e.preventDefault()
+         if (!title.trim()) {
+            alert('제목을 입력하세요.')
+            return
+         }
          if (!content.trim()) {
             alert('내용을 입력하세요.')
             return
          }
-         if (!hashtags.trim()) {
-            alert('해시태그를 입력하세요.')
-            return
-         }
-         if (!imgFile) {
-            alert('이미지 파일을 추가하세요.')
-            return
-         }
+
          const formData = new FormData()
+         if (imgFile) {
+            const encodedFile = new File([imgFile], encodeURIComponent(imgFile.name), {
+               type: imgFile.type,
+            })
+            formData.append('img', encodedFile)
+         }
+         formData.append('title', title)
          formData.append('content', content)
          formData.append('hashtags', hashtags)
-         formData.append('img', imgFile)
          onSubmit(formData)
       },
-      [content, hashtags, imgFile, onSubmit]
+      [title, content, hashtags, imgFile, onSubmit]
    )
 
    return (
@@ -101,4 +108,4 @@ function PostForm({ onSubmit, initialValues = {} }) {
       </form>
    )
 }
-export default PostForm
+export default BoardForm
