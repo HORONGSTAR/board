@@ -97,12 +97,44 @@ export const getBoardById = async (id) => {
    }
 }
 
-export const getBoard = async (page) => {
+export const getBoard = async (page, limit) => {
    try {
-      const response = await boardApi.get(`board?page=${page}`)
+      const response = await boardApi.get(`board?page=${page}&limit=${limit}`)
       return response
    } catch (error) {
       console.error(`/API Request 오류: ${error.message}`)
       throw error
    }
 }
+
+export const getProfile = async () => {
+   try {
+      const response = await boardApi.get(`/page/profile`)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error.message}`)
+      throw error
+   }
+}
+
+export const getProfileId = async (id) => {
+   try {
+      const response = await boardApi.get(`/page/profile/${id}`)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error.message}`)
+      throw error
+   }
+}
+
+export const followUser = async (id) => {
+   try {
+      const response = await boardApi.post(`/user/${id}/follow`)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error.message}`)
+      throw error
+   }
+}
+
+export default boardApi

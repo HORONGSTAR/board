@@ -136,3 +136,8 @@ export const Li = styled.li`
    justify-content: ${(props) => props.jc || 'baseline'};
    align-items: ${(props) => props.ai || 'center'};
 `
+export const Table = styled.table`
+   margin: 0 auto;
+   width: ${(props) => props.w || '100%'};
+   height: ${(props) => props.w || 'none'};
+`

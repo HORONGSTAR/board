@@ -2,7 +2,7 @@ import { fetchBoardsThunk } from '../features/boardSlice'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Th, Td, Ul, Li, Span, Button } from '../styles/StyledComponent'
+import { Box, Th, Td, Ul, Li, Table, Button } from '../styles/StyledComponent'
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai'
 import dayjs from 'dayjs'
 
@@ -15,7 +15,7 @@ const Home = ({ isAuthenticated, user }) => {
    const handlePageBack = useCallback(() => setPage(page + 1))
 
    useEffect(() => {
-      dispatch(fetchBoardsThunk(page))
+      dispatch(fetchBoardsThunk({ page, limit: 5 }))
    }, [dispatch, page])
 
    return (
@@ -25,7 +25,7 @@ const Home = ({ isAuthenticated, user }) => {
 
          {boards.length > 0 ? (
             <>
-               <table>
+               <Table>
                   <thead>
                      <tr>
                         <Th w="10%">순번</Th>
@@ -37,7 +37,7 @@ const Home = ({ isAuthenticated, user }) => {
                   <tbody>
                      {boards.map((board, index) => (
                         <tr>
-                           <Td>{pagination.totalBoards - index}</Td>
+                           <Td>{pagination.offset - index}</Td>
                            <Td align="left">
                               <Link to={`/boards/${board.id}`}>{board.title}</Link>
                            </Td>
@@ -46,20 +46,23 @@ const Home = ({ isAuthenticated, user }) => {
                         </tr>
                      ))}
                   </tbody>
-               </table>
-               <Ul>
-                  <Li>
-                     <Button disabled={page === 1} onClick={handlePageFront}>
-                        <AiOutlineDoubleLeft />
-                     </Button>
+               </Table>
+               <Ul jc="center">
+                  <Li w="20px" jc="center">
+                     <Box display={page === 1 && 'none'}>
+                        <AiOutlineDoubleLeft onClick={handlePageFront} />
+                     </Box>
                   </Li>
                   <Li>
-                     {pagination.currentPage} / {pagination.totalPages}
+                     {pagination.currentPage}/{pagination.totalPages}
                   </Li>
-                  <Li>
-                     <Button disabled={page === pagination.totalPages} onClick={handlePageBack}>
+                  <Li w="20px" jc="center">
+                     <Box
+                        display={page === pagination.totalPages && 'none'}
+                        onClick={handlePageBack}
+                     >
                         <AiOutlineDoubleRight />
-                     </Button>
+                     </Box>
                   </Li>
                </Ul>
             </>

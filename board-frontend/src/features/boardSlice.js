@@ -48,9 +48,10 @@ export const fetchBoardByIdThunk = createAsyncThunk(
 )
 export const fetchBoardsThunk = createAsyncThunk(
    'boards/getBoard',
-   async (page, { rejectWithValue }) => {
+   async (data, { rejectWithValue }) => {
+      const { page, limit } = data
       try {
-         const response = await getBoard(page)
+         const response = await getBoard(page, limit)
          return response.data
       } catch (error) {
          return rejectWithValue(error.response?.data?.message || '게시물 불러오기 실패')

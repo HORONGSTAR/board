@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage'
 import BoardCreatePage from './pages/BoardCreatePage'
 import BoardEditPage from './pages/BoardEditPage'
 import BoardDetailPage from './pages/BoardDetailPage'
-
+import MyPage from './pages/MyPage'
 import './styles/common.css'
 import Navbar from './components/shared/Navber'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,6 +31,8 @@ function App() {
                path="/boards/:id"
                element={<BoardDetailPage isAuthenticated={isAuthenticated} user={user} />}
             />
+            <Route path="/my" element={<MyPage auth={user} />} />
+            <Route path="/my/:id" element={<MyPage auth={user} />} />
             <Route path="/boards/create" element={<BoardCreatePage />} />
             <Route path="/boards/edit/:id" element={<BoardEditPage />} />
          </Routes>
