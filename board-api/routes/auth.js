@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 const User = require('../models/user')
-const { isLoggedIn, isNotLoggendIn } = require('./middleware')
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares')
 
 router.post('/join', async (req, res, next) => {
    const { email, nick, password } = req.body
@@ -41,7 +41,7 @@ router.post('/join', async (req, res, next) => {
    }
 })
 
-router.post('/login', isNotLoggendIn, async (req, res, next) => {
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
    passport.authenticate('local', (authError, user, info) => {
       if (authError) {
          return res

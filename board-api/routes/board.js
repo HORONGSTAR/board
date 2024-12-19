@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { User, Board, Hashtag } = require('../models')
-const { isLoggedIn } = require('./middleware')
+const { isLoggedIn } = require('./middlewares')
 const fs = require('fs')
 const multer = require('multer')
 const path = require('path')
@@ -227,6 +227,7 @@ router.get('/', async (req, res) => {
             totalBoards: count,
             currentPage: page,
             totalPages: Math.ceil(count / limit),
+            offset: count - offset,
             limit,
          },
          message: '전체 게시물 리스트를 성공적으로 불러왔습니다.',

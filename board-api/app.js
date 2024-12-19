@@ -9,6 +9,8 @@ const { sequelize } = require('./models')
 const indexRouter = require('./routes')
 const authRouter = require('./routes/auth')
 const boardRouter = require('./routes/board')
+const pageRouter = require('./routes/page')
+const userRouter = require('./routes/user')
 const passport = require('passport')
 const passportConfig = require('./passport')
 
@@ -50,6 +52,8 @@ app.use(passport.session())
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/board', boardRouter)
+app.use('/page', pageRouter)
+app.use('/user', userRouter)
 
 app.use((req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 존재하지 않습니다.`)
