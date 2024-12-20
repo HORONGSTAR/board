@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { followUser } from '../api/boardApi'
+import { followUser, unfollowUser } from '../api/boardApi'
 
-// 비동기 Thunk 액션: 회원가입 요청
 export const followUserThunk = createAsyncThunk(
    'user/followUser',
    async (id, { rejectWithValue }) => {
@@ -28,7 +27,7 @@ const userSlice = createSlice({
             state.loading = true
             state.error = null
          })
-         .addCase(followUserThunk.fulfilled, (state, action) => {
+         .addCase(followUserThunk.fulfilled, (state) => {
             state.loading = false
          })
          .addCase(followUserThunk.rejected, (state, action) => {
